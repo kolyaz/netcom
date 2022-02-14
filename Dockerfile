@@ -1,4 +1,4 @@
-FROM arm32v7/golang:1.16.14-alpine3.14 AS builder
+FROM arm32v7/golang:1.15 AS builder
 
 ENV GOPATH /go
 WORKDIR /go/src

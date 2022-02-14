@@ -8,11 +8,11 @@ dev: dev_build dev_run
 
 build:
 	docker build -t $(IMAGE):latest .
-	docker build -t $(IMAGE):arm32v6-$(VERSION) .
+	docker build -t $(IMAGE):arm32v7-$(VERSION) .
 
 push:
 	docker build -t $(IMAGE):latest .
-	docker build -t $(IMAGE):arm32v6-$(VERSION) .
+	docker build -t $(IMAGE):arm32v7-$(VERSION) .
 
 dev_build:
 	docker build -t $(IMAGE) ./dev/
