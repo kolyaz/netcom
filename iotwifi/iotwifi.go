@@ -106,6 +106,7 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 	})
 
 	wpacfg := NewWpaCfg(log, cfgLocation)
+
 	wpacfg.StartAP()
 
 	time.Sleep(10 * time.Second)
@@ -140,12 +141,13 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		staticFields["cmd"] = out.Command
 		staticFields["is_error"] = out.Error
 
-		log.Info(staticFields, out.Message)
-
+		//log.Info(staticFields, out.Message)
+		wpacfg.Status()
 		if handler, ok := cmdRunner.Handlers[out.Id]; ok {
 			handler(out)
 		}
 	}
+	
 }
 
 // HandleFunc is a function that gets all channel messages for a command id
