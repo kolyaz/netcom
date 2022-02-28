@@ -135,12 +135,7 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		for {
 			wpacfg.ScanNetworks()
 			time.Sleep(60 * time.Second)
-			status, err := wpacfg.Status()
-			if err != nil {
-				blog.Error(err.Error())
-				return
-			}
-			log.Info(status)
+			wpacfg.Status()
 		}
 	}()
 

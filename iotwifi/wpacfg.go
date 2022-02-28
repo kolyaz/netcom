@@ -241,7 +241,6 @@ func (wpa *WpaCfg) Status() (map[string]string, error) {
 		wpa.Log.Fatal("Got error checking state: %s", err.Error())
 		return cfgMap, err
 	}
-
 	cfgMap = cfgMapper(stateOut)
 
 	return cfgMap, nil
