@@ -78,7 +78,7 @@ func loadCfg(cfgLocation string) (*SetupCfg, error) {
 // RunWifi starts AP and Station modes.
 func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 
-	log.Info("Loading IoT Wifi...")
+	log.Info("Start Wifi...")
 
 	cmdRunner := CmdRunner{
 		Log:      log,
@@ -93,6 +93,8 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		return
 	}
 
+	log.Info("Load WIFI configuration done ...")
+
 	command := &Command{
 		Log:      log,
 		Runner:   cmdRunner,
@@ -104,20 +106,30 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		log.Error("GOT KILL")
 		os.Exit(1)
 	})
+    // log.Info("Removes the AP interface. ...")
+	// command.RemoveApInterface()
 
 	wpacfg := NewWpaCfg(log, cfgLocation)
-
-	wpacfg.StartAP()
-
-	time.Sleep(10 * time.Second)
+    
+	log.Info("Start wpa_supplicant. ...")
 
 	command.StartWpaSupplicant()
 
+	time.Sleep(5 * time.Second)
+	scanWIFI:= wpacfg.ScanNetworks()
+
+	time.Sleep(10 * time.Second)
+
+    log.Info("Start Start AP mode. ...")
+
+	wpacfg.StartAP()
+
+
 	// Scan
 	time.Sleep(5 * time.Second)
-	wpacfg.ScanNetworks()
-
+	log.Info("Start DNSmaq ...")
 	command.StartDnsmasq()
+	time.Sleep(5 * time.Second)
 
 	// TODO: check to see if we are stuck in a scanning state before
 	// if in a scanning state set a timeout before resetting
@@ -141,8 +153,8 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		staticFields["cmd"] = out.Command
 		staticFields["is_error"] = out.Error
 
-		//log.Info(staticFields, out.Message)
-		wpacfg.Status()
+		log.Info(staticFields, out.Message)
+		// wpacfg.Status()
 		if handler, ok := cmdRunner.Handlers[out.Id]; ok {
 			handler(out)
 		}

@@ -58,7 +58,7 @@ func NewWpaCfg(log bunyan.Logger, cfgLocation string) *WpaCfg {
 
 // StartAP starts AP mode.
 func (wpa *WpaCfg) StartAP() {
-	wpa.Log.Info("Starting Hostapd.")
+	wpa.Log.Info("Starting Hostapd ...")
 
 	command := &Command{
 		Log:      wpa.Log,
