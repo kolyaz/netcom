@@ -117,9 +117,9 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 
 	time.Sleep(10 * time.Second)
 
-    // log.Info("Start Start AP mode. ...")
+    log.Info("Start Start AP mode. ...")
 
-	// wpacfg.StartAP()
+	wpacfg.StartAP()
 
 
 	// Scan
@@ -134,7 +134,13 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 	go func() {
 		for {
 			wpacfg.ScanNetworks()
-			time.Sleep(30 * time.Second)
+			time.Sleep(60 * time.Second)
+			status, err := wpacfg.Status()
+			if err != nil {
+				blog.Error(err.Error())
+				return
+			}
+			log.Info("Статус ..."+status)
 		}
 	}()
 
@@ -151,8 +157,8 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		staticFields["cmd"] = out.Command
 		staticFields["is_error"] = out.Error
 
-		log.Info(staticFields, out.Message)
-		// wpacfg.Status()
+		// log.Info(staticFields, out.Message)
+
 		if handler, ok := cmdRunner.Handlers[out.Id]; ok {
 			handler(out)
 		}
