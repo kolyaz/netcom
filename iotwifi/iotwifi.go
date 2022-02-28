@@ -106,8 +106,8 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		log.Error("GOT KILL")
 		os.Exit(1)
 	})
-    // log.Info("Removes the AP interface. ...")
-	// command.RemoveApInterface()
+    log.Info("Removes the AP interface. ...")
+	command.RemoveApInterface()
 
 	wpacfg := NewWpaCfg(log, cfgLocation)
     
