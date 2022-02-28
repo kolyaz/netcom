@@ -117,9 +117,9 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 
 	time.Sleep(10 * time.Second)
 
-    log.Info("Start Start AP mode. ...")
+    // log.Info("Start Start AP mode. ...")
 
-	wpacfg.StartAP()
+	// wpacfg.StartAP()
 
 
 	// Scan
