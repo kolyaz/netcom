@@ -140,7 +140,7 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 				blog.Error(err.Error())
 				return
 			}
-			log.Info("Статус ..."+status)
+			log.Info(status)
 		}
 	}()
 
