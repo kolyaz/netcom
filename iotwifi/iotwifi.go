@@ -114,8 +114,11 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 	log.Info("Start wpa_supplicant. ...")
 
 	command.StartWpaSupplicant()
-
 	time.Sleep(10 * time.Second)
+
+	log.Info("Start DNSmaq ...")
+	command.StartDnsmasq()
+    time.Sleep(10 * time.Second)
 
     log.Info("Start Start AP mode. ...")
 
@@ -126,8 +129,7 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 	time.Sleep(5 * time.Second)
 	wpacfg.ScanNetworks()
     
-	log.Info("Start DNSmaq ...")
-	command.StartDnsmasq()
+
 
 	// TODO: check to see if we are stuck in a scanning state before
 	// if in a scanning state set a timeout before resetting
@@ -135,7 +137,6 @@ func RunWifi(log bunyan.Logger, messages chan CmdMessage, cfgLocation string) {
 		for {
 			wpacfg.ScanNetworks()
 			time.Sleep(60 * time.Second)
-			wpacfg.Status()
 		}
 	}()
 
